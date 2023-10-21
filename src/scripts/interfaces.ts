@@ -2,7 +2,7 @@ type TGender = 'Female' | 'Male' | 'Genderless' | 'unknown';
 type TCharacterStatus = 'Alive' | 'Dead' | 'unknown';
 type TCharacterType = string | null;
 
-type TUrlLink = string;
+export type TUrlLink = string;
 
 interface ILink {
   name: string;
@@ -23,7 +23,7 @@ export interface ICharacter {
   created: string;
 }
 
-interface ICharacterInfo {
+export interface ICharacterInfo {
   count: number;
   pages: number;
   next?: TUrlLink;

@@ -5,44 +5,41 @@
   </svg>
 </template>
 
-<script>
-export default {
-  name: 'svg-icon',
+<script lang="ts">
+import { defineComponent } from 'vue';
 
+export default defineComponent({
+  name: 'SvgIcon',
   props: {
     name: {
       type: String,
       required: true,
     },
-
     title: {
       type: String,
       default: null,
     },
   },
-
   computed: {
-    iconPath() {
+    iconPath(): string {
       // eslint-disable-next-line global-require
       let icon = require(`@/assets/icons/${this.name}.svg`);
       if (Object.prototype.hasOwnProperty.call(icon, 'default')) {
         icon = icon.default;
       }
-
       return icon.url;
     },
-
-    className() {
+    className(): string {
       return `svg-icon svg-icon--${this.name}`;
     },
   },
-};
+});
 </script>
 
-<style>
-.svg-icon {
-  fill: currentColor;
-  height: 24px;
-  width: 24px;
-}
+<style lang="sass">
+.svg-icon
+  /* fill: currentColor; */
+  height: 24px
+  width: 24px
+  transition: stroke 0.2s ease-in-out, fill 0.2s ease-in-out
 </style>

@@ -1,0 +1,152 @@
+<template>
+  <teleport to="#teleport-target">
+    <div class="dialog" ref="dialog">
+      <div class="dialog__wrapper">
+        <div class="dialog__header">
+          <span>{{ character?.name ?? 'Неизвестный персонаж' }}</span>
+        </div>
+
+        <BaseButtonOut
+          class="button button--second dialog__btn dialog__btn--close"
+          caption="Закрыть"
+          @click="cancel"
+        />
+      </div>
+    </div>
+  </teleport>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+import { ICharacter } from '@/scripts/interfaces';
+
+export default defineComponent({
+  name: 'ProductDialog',
+  components: {},
+  props: {
+    character: Object as PropType<ICharacter>,
+  },
+  emits: ['cancel'],
+  methods: {
+    stopScrolling() {
+      document.body.style.paddingRight = `${
+        window.innerWidth - document.documentElement.clientWidth
+      }px`; // чтобы не происходил визуальный скачок интерфейса
+      document.body.style.overflow = 'hidden';
+    },
+    startScrolling() {
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = 'null';
+    },
+    cancel() {
+      this.startScrolling();
+      this.$emit('cancel');
+    },
+  },
+  mounted() {
+    this.stopScrolling();
+    document.addEventListener('click', (item) => {
+      if (item.target === this.$refs.dialog) {
+        this.cancel();
+      }
+    });
+  },
+});
+</script>
+
+<style lang="sass" scoped>
+@import '@/assets/sass/variables'
+
+.dialog
+  position: fixed
+  top: 0
+  bottom: 0
+  right: 0
+  left: 0
+  z-index: 99
+  display: flex
+  justify-content: center
+  align-items: center
+  background: rgba(51, 51, 51, 0.6)
+  overflow: auto
+  &__wrapper
+    display: flex
+    flex-direction: column
+    justify-content: stretch
+    align-items: stretch
+    padding: 30px
+    background-color: white
+    border-radius: 6px
+    box-shadow: 4px 4px 8px 0px rgba(black, 0.5)
+    max-height: 600px
+    max-width: 90%
+    overflow: auto
+  &__header
+    flex-grow: 0
+    flex-shrink: 0
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 20px
+    font-size: 25px
+    &-close
+      &:hover
+        cursor: pointer
+  &__icon
+    &--close
+      width: 30px
+      height: 30px
+      stroke: black
+      transform: rotate(45deg)
+  &__content
+    flex-grow: 1
+    flex-shrink: 1
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: stretch
+    width: 100%
+    & > *:not(:last-child)
+      width: 100%
+      margin-bottom: 10px
+  &__input
+    border: none
+    border-radius: 0
+    border-bottom: 1px solid $color-gs-5
+    height: 25px
+    &--title
+      margin-bottom: 3px !important
+    &--descr
+      height: 100px
+      resize: vertical
+  &__input-error
+    margin-bottom: 7px
+    color: red
+    font-size: 12px
+    &.hidden
+      visibility: hidden
+      height: 0
+  &__footer
+    flex-grow: 0
+    flex-shrink: 0
+    display: flex
+    justify-content: flex-end
+    margin-top: 10px
+  &__btn
+    display: flex
+    align-items: center
+    justify-content: center
+  &__btn--close
+    margin-right: 20px
+
+@media (max-width: 575.98px)
+  .dialog
+    &__wrapper
+      padding: 15px
+    &__header
+      font-size: 22px
+    &__input
+      font-size: 14px
+    &__btn--close
+      margin-right: 10px
+</style>
