@@ -5,9 +5,13 @@ type TCharacterType = string | null;
 export type TSortValue = 'asc' | 'desc' | 'none';
 export type TUrlLink = string;
 
-interface ILink {
+export interface ILink {
   name: string;
   url?: TUrlLink;
+}
+
+export function isILink(obj: any): obj is ILink {
+  return obj.name !== 'undefined';
 }
 
 export interface ICharacter {

@@ -10,7 +10,7 @@
     <SvgIcon
       class="base-btn-out__icon base-btn-out__icon--rotated"
       name="iconChevronDown"
-      v-if="modelValue !== 'none'"
+      v-show="modelValue !== 'none'"
     />
   </BaseButton>
 </template>
@@ -57,8 +57,6 @@ export default defineComponent({
       switch (this.modelValue) {
         case 'none':
           (event.currentTarget as HTMLInputElement).classList.remove('inactive');
-        // eslint-disable-next-line no-fallthrough
-        case 'desc':
           this.$emit('update:modelValue', 'asc');
           (event.currentTarget as HTMLInputElement)
             .querySelector('.base-btn-out__icon')
@@ -70,8 +68,19 @@ export default defineComponent({
             .querySelector('.base-btn-out__icon')
             ?.classList?.remove('base-btn-out__icon--rotated');
           break;
+        case 'desc':
+          this.$emit('update:modelValue', 'none');
+          (event.currentTarget as HTMLInputElement).classList.add('inactive');
+          (event.currentTarget as HTMLInputElement)
+            .querySelector('.base-btn-out__icon')
+            ?.classList?.add('base-btn-out__icon--rotated');
+          break;
         default:
           this.$emit('update:modelValue', 'none');
+          (event.currentTarget as HTMLInputElement).classList.add('inactive');
+          (event.currentTarget as HTMLInputElement)
+            .querySelector('.base-btn-out__icon')
+            ?.classList?.add('base-btn-out__icon--rotated');
       }
     },
   },

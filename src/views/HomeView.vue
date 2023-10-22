@@ -7,20 +7,20 @@
     </div>
 
     <div class="home__cards">
-      <transition-group name="characters-list">
-        <CharacterCard
-          v-for="person in getCharacters"
-          :key="(person as ICharacter).id"
-          :character="person"
-        />
-      </transition-group>
+      <!-- <transition-group name="characters-list"> -->
+      <CharacterCard
+        v-for="person in getCharacters"
+        :key="(person as ICharacter).id"
+        :character="person"
+      />
+      <!-- </transition-group> -->
     </div>
   </BaseContainer>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import CharacterCard from '@/components/CharacterCard.vue';
 import PanelSorts from '@/components/ControlPanel/PanelSorts.vue';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,10 +31,9 @@ export default defineComponent({
   components: { CharacterCard, PanelSorts },
   data() {
     return {
-      charactersOperated: [] as ICharacter[],
       sorts: {
         gender: 'desc',
-        name: 'asc',
+        name: 'none',
         origin: 'none',
       } as ICharacterSorts,
     };
@@ -53,13 +52,14 @@ export default defineComponent({
       deep: true,
     },
     sorts: {
-      handler(value: ICharacterSorts) {
-        console.log(value);
+      handler() {
+        this.sortCharacters(this.sorts);
       },
       deep: true,
     },
   },
   methods: {
+    ...mapMutations(['sortCharacters']),
     ...mapActions(['loadCharacters']),
   },
   created() {
@@ -68,7 +68,11 @@ export default defineComponent({
     this.loadCharacters()
       .then(() => {
         console.log('данные загружены');
-        this.charactersOperated = [...this.getCharacters];
+
+        // отсортировать при наличии предварительной настройки
+        if (Object.values(this.sorts).filter((item) => item !== 'none').length) {
+          this.sortCharacters(this.sorts);
+        }
       })
       .catch((err) => {
         console.log(err.message);

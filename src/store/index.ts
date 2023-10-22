@@ -1,5 +1,11 @@
 import { createStore } from 'vuex';
-import { ICharacter, ICharacterInfo, ICharacterInfoExtended } from '@/scripts/interfaces';
+import {
+  ICharacter,
+  ICharacterInfo,
+  ICharacterInfoExtended,
+  ILink,
+  isILink,
+} from '@/scripts/interfaces';
 import apiLoadCharacters from '@/scripts/api';
 
 export default createStore({
@@ -40,6 +46,51 @@ export default createStore({
     addCharacters(state, list: [ICharacter]) {
       list.forEach((item) => {
         state.characters.push(item);
+      });
+    },
+    sortReset(state) {
+      state.characters.sort((a, b) => a.id - b.id);
+    },
+    sortCharacters(state, sorts) {
+      // ! отфильтровать лишние поля, по которым нет сортировки. При пустом списке сортировать по ID
+      const sortPairs = Object.entries(sorts).filter((item) => item[1] !== 'none');
+
+      if (!sortPairs.length) {
+        state.characters.sort((a, b) => a.id - b.id);
+        return;
+      }
+
+      state.characters.sort((a, b) => {
+        let result = 0;
+
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < sortPairs.length; i++) {
+          const field = sortPairs[i][0];
+          const direction = sortPairs[i][1] === 'asc' ? 1 : -1;
+
+          let valueA = a[field as keyof ICharacter];
+          let valueB = b[field as keyof ICharacter];
+
+          switch (typeof valueA) {
+            case 'string':
+              result = result || valueA.localeCompare(valueB as string) * direction;
+              break;
+            case 'number':
+              result = result || (valueA - (valueB as number)) * direction;
+              break;
+            case 'object':
+              if (isILink(valueA)) {
+                valueA = valueA.name;
+                valueB = (valueB as ILink).name;
+                result = result || valueA.localeCompare(valueB) * direction;
+              }
+              break;
+            default:
+              break;
+          }
+        }
+
+        return result;
       });
     },
     updateCharactersInfo(state, info: ICharacterInfo) {
