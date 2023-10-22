@@ -1,5 +1,8 @@
 <template>
-  <button class="base-btn" :type="type">{{ caption }}</button>
+  <button class="base-btn" :type="type" :disabled="disabled">
+    {{ caption }}
+    <slot />
+  </button>
 </template>
 
 <script lang="ts">
@@ -10,12 +13,13 @@ export default defineComponent({
   props: {
     caption: {
       type: String,
-      default: 'Нажать',
+      // default: 'Нажать',
     },
     type: {
       type: String as PropType<ButtonHTMLAttributes['type']>,
       default: 'button',
     },
+    disabled: Boolean,
   },
 });
 </script>
@@ -24,14 +28,21 @@ export default defineComponent({
 @import '@/assets/sass/variables'
 
 .base-btn
+  display: flex
+  align-items: center
+  justify-content: space-evenly
   padding: 10px
   background-color: $color-primary
   border-radius: 6px
+  transition: background-color .2s ease-in-out, opacity .2s ease-in-out, color .2s ease-in-out
   font-weight: 600
   font-size: 16px
   color: $color-gs-1
   letter-spacing: 0.15px
-  transition: background-color .2s ease-in-out
+  &:disabled
+    opacity: 50%
+  &__icon
+    fill: $color-gs-1
   &:focus, &:hover
     background-color: lighten($color-primary, 10%) //$color-primary-hovered
   &:active

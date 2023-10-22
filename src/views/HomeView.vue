@@ -1,11 +1,20 @@
 <template>
   <BaseContainer class="home">
     <h1 class="home__header visually-hidden">Персонажи мультсериала "Rick & Morty"</h1>
-    <CharacterCard
-      v-for="person in getCharacters"
-      :key="(person as ICharacter).id"
-      :character="person"
-    />
+
+    <div class="control-panel home__control-panel">
+      <PanelSorts class="control-panel__sorts" v-model:sorts="sorts" :disabled="isLoading" />
+    </div>
+
+    <div class="home__cards">
+      <transition-group name="characters-list">
+        <CharacterCard
+          v-for="person in getCharacters"
+          :key="(person as ICharacter).id"
+          :character="person"
+        />
+      </transition-group>
+    </div>
   </BaseContainer>
 </template>
 
@@ -13,19 +22,28 @@
 import { defineComponent } from 'vue';
 import { mapGetters, mapActions } from 'vuex';
 import CharacterCard from '@/components/CharacterCard.vue';
+import PanelSorts from '@/components/ControlPanel/PanelSorts.vue';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ICharacter, ICharacterInfoExtended } from '@/scripts/interfaces';
+import { ICharacter, ICharacterInfoExtended, ICharacterSorts } from '@/scripts/interfaces';
 
 export default defineComponent({
   name: 'HomeView',
-  components: { CharacterCard },
+  components: { CharacterCard, PanelSorts },
   data() {
     return {
-      isLoading: false,
+      charactersOperated: [] as ICharacter[],
+      sorts: {
+        gender: 'desc',
+        name: 'asc',
+        origin: 'none',
+      } as ICharacterSorts,
     };
   },
   computed: {
     ...mapGetters(['getCharacters', 'getCharactersInfo']),
+    isLoading() {
+      return (this.getCharactersInfo as ICharacterInfoExtended).loading();
+    },
   },
   watch: {
     getCharactersInfo: {
@@ -34,20 +52,26 @@ export default defineComponent({
       },
       deep: true,
     },
+    sorts: {
+      handler(value: ICharacterSorts) {
+        console.log(value);
+      },
+      deep: true,
+    },
   },
   methods: {
     ...mapActions(['loadCharacters']),
   },
   created() {
+    if (this.getCharacters.length && !this.getCharactersInfo.error) return;
+
     this.loadCharacters()
       .then(() => {
         console.log('данные загружены');
+        this.charactersOperated = [...this.getCharacters];
       })
       .catch((err) => {
         console.log(err.message);
-      })
-      .finally(() => {
-        this.isLoading = false;
       });
   },
 });
@@ -55,10 +79,13 @@ export default defineComponent({
 
 <style lang="sass" scoped>
 .home
-  display: grid
-  grid-template-columns: repeat(3, 1fr)
-  gap: 30px
-  justify-items: center
+  &__control-panel
+    margin-bottom: 20px
+  &__cards
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    gap: 30px
+    justify-items: center
 
 @media (max-width: 991.98px)
   .home

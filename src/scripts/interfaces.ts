@@ -2,6 +2,7 @@ type TGender = 'Female' | 'Male' | 'Genderless' | 'unknown';
 type TCharacterStatus = 'Alive' | 'Dead' | 'unknown';
 type TCharacterType = string | null;
 
+export type TSortValue = 'asc' | 'desc' | 'none';
 export type TUrlLink = string;
 
 interface ILink {
@@ -45,4 +46,10 @@ export interface ICharacterInfoExtended {
   errorText: string;
   loading: () => boolean;
   loadingState: () => number;
+}
+
+export interface ICharacterSorts {
+  gender: TSortValue;
+  name: TSortValue;
+  origin: TSortValue;
 }

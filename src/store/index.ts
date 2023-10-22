@@ -15,7 +15,7 @@ export default createStore({
       loading() {
         // загрузка всегда для 1-й страницы (пока еще не были загружены данные о числе страниц)
         // и для последней (пока еще не были загружены данные о том, что новых страниц не будет)
-        return this.pageCurrent === 1 || this.pageNextUrl;
+        return this.pageCurrent === 1 || !!this.pageNextUrl;
       },
       loadingState() {
         if (this.pages === 0) return 0;

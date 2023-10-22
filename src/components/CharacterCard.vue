@@ -6,18 +6,24 @@
       <img class="card__img" :src="image" alt="Персонаж" />
 
       <div class="card__content">
-        <p class="card__id">{{ character?.id }}</p>
-        <p class="card__name">{{ character?.name }}</p>
-        <p class="card__status">{{ character?.status }}</p>
-        <p class="card__species">{{ character?.species }}</p>
-        <p class="card__type">{{ character?.type }}</p>
-        <p class="card__gender">{{ character?.gender }}</p>
-        <a class="card__origin" :href="String(character?.origin?.url)">{{
-          character?.origin?.name
-        }}</a>
-        <a class="card__location" :href="String(character?.location?.url)">{{
-          character?.location?.name
-        }}</a>
+        <p class="card__text card__id">ID: {{ character?.id }}</p>
+        <p class="card__text card__name">ИМЯ: {{ character?.name }}</p>
+        <p class="card__text card__status">СТАТУС: {{ character?.status }}</p>
+        <p class="card__text card__species">РАСА: {{ character?.species }}</p>
+        <p class="card__text card__type">ТИП: {{ character?.type }}</p>
+        <p class="card__text card__gender">ПОЛ: {{ character?.gender }}</p>
+        <p class="card__text card__origin">
+          ПРОИСХОЖДЕНИЕ:
+          <a class="card__link" :href="String(character?.origin?.url)" target="_blank">{{
+            character?.origin?.name
+          }}</a>
+        </p>
+        <p class="card__text card__location">
+          МЕСТО:
+          <a class="card__link" :href="String(character?.location?.url)" target="_blank">{{
+            character?.location?.name
+          }}</a>
+        </p>
       </div>
     </div>
 
@@ -111,6 +117,9 @@ export default defineComponent({
     align-items: flex-start
     margin-bottom: 10px
     margin-top: 40px
+  &__text
+    font-size: 16px
+    font-weight: 600
 //   &__rating
 //     align-self: stretch
 //     display: flex
