@@ -34,3 +34,15 @@ export interface ICharacterData {
   info: ICharacterInfo;
   results: [ICharacter];
 }
+
+export interface ICharacterInfoExtended {
+  characters: number;
+  pages: number;
+  pageCurrent: number;
+  pageNextUrl: TUrlLink;
+  pagePrevUrl: TUrlLink;
+  error: boolean;
+  errorText: string;
+  loading: () => boolean;
+  loadingState: () => number;
+}

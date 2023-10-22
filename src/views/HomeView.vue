@@ -13,7 +13,8 @@
 import { defineComponent } from 'vue';
 import { mapGetters, mapActions } from 'vuex';
 import CharacterCard from '@/components/CharacterCard.vue';
-import { ICharacter } from '@/scripts/interfaces';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ICharacter, ICharacterInfoExtended } from '@/scripts/interfaces';
 
 export default defineComponent({
   name: 'HomeView',
@@ -26,14 +27,21 @@ export default defineComponent({
   computed: {
     ...mapGetters(['getCharacters', 'getCharactersInfo']),
   },
+  watch: {
+    getCharactersInfo: {
+      handler(value: ICharacterInfoExtended) {
+        console.log(value.loadingState());
+      },
+      deep: true,
+    },
+  },
   methods: {
     ...mapActions(['loadCharacters']),
   },
   created() {
     this.loadCharacters()
-      .then((res) => {
+      .then(() => {
         console.log('данные загружены');
-        console.log(this.getCharactersInfo);
       })
       .catch((err) => {
         console.log(err.message);

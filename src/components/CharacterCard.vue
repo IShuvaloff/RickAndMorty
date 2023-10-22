@@ -43,9 +43,8 @@ export default defineComponent({
     CharacterDialog: defineAsyncComponent({
       loader: () => import('@/components/CharacterDialog.vue'),
       delay: 0,
-      loadingComponent: () => '<h2>Загрузка...</h2>',
+      // loadingComponent: () => '<h2>Загрузка...</h2>',
     }),
-    // CharacterDialog,
   },
   props: {
     character: {
