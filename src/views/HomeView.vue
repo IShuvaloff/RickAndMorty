@@ -3,6 +3,13 @@
     <h1 class="home__header visually-hidden">Персонажи мультсериала "Rick & Morty"</h1>
 
     <div class="control-panel home__control-panel">
+      <ButtonReload
+        class="control-panel__reload"
+        data-id="reload-list"
+        :progress="loadingProgress"
+        :error="loadingError"
+        @click="loadCharacters"
+      />
       <PanelSorts class="control-panel__sorts" v-model:sorts="sorts" :disabled="isLoading" />
     </div>
 
@@ -23,12 +30,13 @@ import { defineComponent } from 'vue';
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import CharacterCard from '@/components/CharacterCard.vue';
 import PanelSorts from '@/components/ControlPanel/PanelSorts.vue';
+import ButtonReload from '@/components/ButtonReload.vue';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ICharacter, ICharacterInfoExtended, ICharacterSorts } from '@/scripts/interfaces';
 
 export default defineComponent({
   name: 'HomeView',
-  components: { CharacterCard, PanelSorts },
+  components: { CharacterCard, PanelSorts, ButtonReload },
   data() {
     return {
       sorts: {
@@ -43,11 +51,17 @@ export default defineComponent({
     isLoading() {
       return (this.getCharactersInfo as ICharacterInfoExtended).loading();
     },
+    loadingProgress() {
+      return Math.round((this.getCharactersInfo as ICharacterInfoExtended).loadingState() * 100);
+    },
+    loadingError() {
+      return (this.getCharactersInfo as ICharacterInfoExtended).error;
+    },
   },
   watch: {
     getCharactersInfo: {
       handler(value: ICharacterInfoExtended) {
-        console.log(value.loadingState());
+        // console.log(value.loadingState());
       },
       deep: true,
     },
@@ -90,6 +104,11 @@ export default defineComponent({
     grid-template-columns: repeat(3, 1fr)
     gap: 30px
     justify-items: center
+
+.control-panel
+  display: flex
+  &__reload
+    margin-right: 20px
 
 .list-item
   display: inline-block
