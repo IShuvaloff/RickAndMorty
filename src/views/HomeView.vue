@@ -7,13 +7,13 @@
     </div>
 
     <div class="home__cards">
-      <!-- <transition-group name="characters-list"> -->
-      <CharacterCard
-        v-for="person in getCharacters"
-        :key="(person as ICharacter).id"
-        :character="person"
-      />
-      <!-- </transition-group> -->
+      <transition-group name="characters-list">
+        <CharacterCard
+          v-for="person in getCharacters"
+          :key="(person as ICharacter).id"
+          :character="person"
+        />
+      </transition-group>
     </div>
   </BaseContainer>
 </template>
@@ -90,6 +90,19 @@ export default defineComponent({
     grid-template-columns: repeat(3, 1fr)
     gap: 30px
     justify-items: center
+
+.list-item
+  display: inline-block
+  margin-right: 10px
+.characters-list-enter-active,
+.characters-list-leave-active
+  transition: all .4s ease
+.characters-list-enter-from,
+.characters-list-leave-to
+  opacity: 0
+  transform: translateY(30px)
+.characters-list-move
+  transition: transform 0.4s ease
 
 @media (max-width: 991.98px)
   .home

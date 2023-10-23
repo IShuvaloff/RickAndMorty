@@ -27,12 +27,12 @@
 
 <script lang="ts">
 import { PropType, defineComponent } from 'vue';
-import SortButton from '@/components/SortButton.vue';
+import ButtonSort from '@/components/ButtonSort.vue';
 import { ICharacterSorts } from '@/scripts/interfaces';
 
 export default defineComponent({
   name: 'PanelSorts',
-  components: { SortButton },
+  components: { SortButton: ButtonSort },
   props: {
     sorts: {
       type: Object as PropType<ICharacterSorts>,
