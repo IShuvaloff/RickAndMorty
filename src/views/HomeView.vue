@@ -31,7 +31,6 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
 import CharacterCard from '@/components/CharacterCard.vue';
 import PanelSorts from '@/components/ControlPanel/PanelSorts.vue';
 import ButtonReload from '@/components/ButtonReload.vue';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ICharacter, ICharacterInfoExtended, ICharacterSorts } from '@/scripts/interfaces';
 
 export default defineComponent({
@@ -40,7 +39,7 @@ export default defineComponent({
   data() {
     return {
       sorts: {
-        gender: 'desc',
+        gender: 'none',
         name: 'none',
         origin: 'none',
       } as ICharacterSorts,
@@ -59,12 +58,6 @@ export default defineComponent({
     },
   },
   watch: {
-    getCharactersInfo: {
-      handler(value: ICharacterInfoExtended) {
-        // console.log(value.loadingState());
-      },
-      deep: true,
-    },
     sorts: {
       handler() {
         this.sortCharacters(this.sorts);
@@ -88,9 +81,6 @@ export default defineComponent({
 
 <style lang="sass" scoped>
 .home
-  // display: flex
-  // flex-direction: column
-  // align-items: center
   &__control-panel
     margin-bottom: 20px
   &__cards

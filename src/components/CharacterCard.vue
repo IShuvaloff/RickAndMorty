@@ -6,10 +6,6 @@
       <img class="card__img" :src="image" alt="Персонаж" />
 
       <div class="card__content">
-        <!-- <div class="card__text card__id">
-          <p class="card__text--header">ID:</p>
-          <p class="card__text--value">{{ character?.id }}</p>
-        </div> -->
         <div class="card__text card__name">
           <p class="card__text--header">ИМЯ:</p>
           <p class="card__text--value">{{ character?.name }}</p>
@@ -50,13 +46,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <SvgIcon
-      class="icon card__icon card__icon--edit"
-      name="iconEdit"
-      title="Изменить запись"
-      @click="dialogOpen"
-    /> -->
   </div>
 </template>
 
@@ -64,12 +53,10 @@
 import { PropType, defineComponent, defineAsyncComponent } from 'vue';
 import { mapMutations } from 'vuex';
 import { ICharacter } from '@/scripts/interfaces';
-// import SvgIcon from './SvgIcon.vue';
 
 export default defineComponent({
   name: 'CharacterCard',
   components: {
-    // SvgIcon,
     CharacterDialog: defineAsyncComponent({
       loader: () => import('@/components/CharacterDialog.vue'),
       delay: 0,
@@ -146,7 +133,6 @@ export default defineComponent({
     margin-top: 40px
   &__text
     display: flex
-    // align-items: center
     margin-bottom: 5px
     width: 100%
     font-size: 16px

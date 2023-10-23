@@ -3,21 +3,13 @@
     <div class="dialog" ref="dialog">
       <div class="dialog__wrapper">
         <div class="dialog__header">
-          <span>{{ character?.name ?? 'Неизвестный персонаж' }}</span>
+          <h2 class="dialog__title">{{ character?.name ?? 'Неизвестный персонаж' }}</h2>
         </div>
 
         <div class="dialog__container">
           <img class="dialog__img" :src="image" alt="Персонаж" />
 
           <div class="dialog__content">
-            <!-- <div class="dialog__text dialog__id">
-              <p class="dialog__text--header">ID:</p>
-              <p class="dialog__text--value">{{ character?.id }}</p>
-            </div> -->
-            <!-- <div class="dialog__text dialog__name">
-              <p class="dialog__text--header">ИМЯ:</p>
-              <p class="dialog__text--value">{{ character?.name }}</p>
-            </div> -->
             <div class="dialog__text dialog__status">
               <p class="dialog__text--header">СТАТУС:</p>
               <p class="dialog__text--value">{{ character?.status }}</p>
@@ -52,6 +44,7 @@
                 >{{ character?.location?.name }}</a
               >
             </div>
+
             <BaseButtonOut
               class="button button--second dialog__btn dialog__btn--close"
               caption="Закрыть"
@@ -134,8 +127,8 @@ export default defineComponent({
     border-radius: 6px
     box-shadow: 4px 4px 8px 0px rgba(black, 0.5)
     min-width: 300px
-    max-height: 650px
     max-width: 90%
+    max-height: 90%
     overflow: auto
   &__header
     flex-grow: 0
@@ -176,7 +169,6 @@ export default defineComponent({
     border-radius: 6px
     max-height: 300px
     width: 100%
-    max-width: 250px
     object-fit: cover
 
   &__container
@@ -187,7 +179,7 @@ export default defineComponent({
     display: flex
     margin-bottom: 5px
     width: 100%
-    font-size: 16px
+    font-size: 18px
     &:last-of-type
       margin-bottom: 30px
     &--header
@@ -213,11 +205,19 @@ export default defineComponent({
 @media (max-width: 575.98px)
   .dialog
     &__wrapper
-      padding: 15px
-    &__header
-      font-size: 22px
-    &__input
-      font-size: 14px
+      padding: 20px
+    &__title
+      font-size: 28px
+    &__container
+      gap: 20px
+      margin-bottom: 0
+    &__img
+      max-height: 300px
+      // max-width: 200px
+    &__text
+      font-size: 16px
+      &:last-of-type
+        margin-bottom: 20px
     &__btn--close
       padding: 10px
       margin-right: 10px

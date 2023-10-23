@@ -77,8 +77,6 @@ export default defineComponent({
     margin-right: 10px
   &__btn
     flex-shrink: 0
-    // padding-top: 2px
-    // padding-bottom: 2px
     &:not(:last-child)
       margin-right: 10px
 
