@@ -1,25 +1,37 @@
 <template>
-  <div class="card" @dblclick="dialogOpen">
+  <div class="card" @click="dialogOpen" @keypress.enter="dialogOpen">
     <CharacterDialog v-if="isDialogOpened" :character="character" @cancel="dialogClose" />
 
     <div class="card__container">
       <img class="card__img" :src="image" alt="Персонаж" />
 
       <div class="card__content">
-        <p class="card__text card__id">ID: {{ character?.id }}</p>
-        <p class="card__text card__name">ИМЯ: {{ character?.name }}</p>
-        <p class="card__text card__status">СТАТУС: {{ character?.status }}</p>
-        <p class="card__text card__species">РАСА: {{ character?.species }}</p>
-        <p class="card__text card__type">ТИП: {{ character?.type }}</p>
-        <p class="card__text card__gender">ПОЛ: {{ character?.gender }}</p>
+        <p class="card__text card__id">
+          <span class="card__text--header">ID:</span> {{ character?.id }}
+        </p>
+        <p class="card__text card__name">
+          <span class="card__text--header">ИМЯ:</span> {{ character?.name }}
+        </p>
+        <p class="card__text card__status">
+          <span class="card__text--header">СТАТУС:</span> {{ character?.status }}
+        </p>
+        <p class="card__text card__species">
+          <span class="card__text--header">РАСА:</span> {{ character?.species }}
+        </p>
+        <p class="card__text card__type">
+          <span class="card__text--header">ТИП:</span> {{ character?.type }}
+        </p>
+        <p class="card__text card__gender">
+          <span class="card__text--header">ПОЛ:</span> {{ character?.gender }}
+        </p>
         <p class="card__text card__origin">
-          ПРОИСХОЖДЕНИЕ:
+          <span class="card__text--header">ПРОИСХОЖДЕНИЕ:</span>
           <a class="card__link" :href="String(character?.origin?.url)" target="_blank">{{
             character?.origin?.name
           }}</a>
         </p>
         <p class="card__text card__location">
-          МЕСТО:
+          <span class="card__text--header">МЕСТО:</span>
           <a class="card__link" :href="String(character?.location?.url)" target="_blank">{{
             character?.location?.name
           }}</a>
@@ -91,7 +103,7 @@ export default defineComponent({
   flex-direction: column
   align-items: stretch
   border-radius: 6px
-  max-width: 400px
+  width: 90%
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px
   &__icon
     &--edit
@@ -120,37 +132,9 @@ export default defineComponent({
   &__text
     font-size: 16px
     font-weight: 600
-//   &__rating
-//     align-self: stretch
-//     display: flex
-//     align-items: center
-//     justify-content: space-between
-//     font-size: 16px
-//   &__title
-//     font-size: 24px
-//     word-break: break-word
-//   &__category
-//     align-self: flex-end
-//     margin-bottom: 10px
-//     font-weight: 600
-//     font-size: 14px
-//     color: $color-gs-5
-//   &__descr
-//     word-break: break-word
-//   &__price
-//     align-self: flex-end
-//     margin-bottom: 10px
-//     font-weight: 600
-//     font-size: 20px
-//   &__options
-//     display: flex
-//     align-items: center
-//     justify-content: stretch
-//   &__option
-//     width: 100%
-//     color: $color-gs-7 !important
-//     &:not(:last-child)
-//       margin-right: 10px
+    word-break: break-word
+    &--header
+      width: 30%
 
 @media (max-width: 575.98px)
   .card
@@ -158,14 +142,4 @@ export default defineComponent({
       max-height: 250px
     &__container
       padding: 10px
-    // &__rating
-    //   font-size: 13px
-    // &__title
-    //   font-size: 16px
-    // &__category
-    //   font-size: 11px
-    // &__descr
-    //   font-size: 12px
-    // &__price
-    //   font-size: 16px
 </style>

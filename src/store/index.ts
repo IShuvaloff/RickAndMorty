@@ -119,28 +119,37 @@ export default createStore({
     },
   },
   actions: {
-    async loadCharacters(context) {
+    async loadCharacters(context, sorts = null) {
       context.commit('clearCharactersData');
 
-      context.commit('startLoadingNewPage');
-      while (context.state.charactersInfo.loading()) {
-        try {
-          // eslint-disable-next-line no-await-in-loop
-          const response = await apiLoadCharacters(context.state.charactersInfo.pageCurrent);
+      // ! отлов ошибок без возврата наверх
+      try {
+        context.commit('startLoadingNewPage');
+        while (context.state.charactersInfo.loading()) {
+          try {
+            // eslint-disable-next-line no-await-in-loop
+            const response = await apiLoadCharacters(context.state.charactersInfo.pageCurrent);
 
-          context.commit('updateCharactersInfo', response.info);
-          context.commit('addCharacters', response.results);
-        } catch (err) {
-          if (err instanceof Error) {
-            const message = `Ошибка загрузки персонажей со страницы ${context.state.charactersInfo.pageCurrent}: ${err.message}`;
+            context.commit('updateCharactersInfo', response.info);
+            context.commit('addCharacters', response.results);
 
-            context.commit('setCharacterInfoError', message);
-            throw new Error(`Ошибка загрузки списка персонажей с сервера: ${message}`);
+            if (sorts) context.commit('sortCharacters', sorts);
+          } catch (err) {
+            if (err instanceof Error) {
+              const message = `Ошибка загрузки персонажей со страницы ${context.state.charactersInfo.pageCurrent}: ${err.message}`;
+
+              context.commit('setCharacterInfoError', message);
+              throw new Error(`Ошибка загрузки списка персонажей с сервера: ${message}`);
+            }
+          } finally {
+            if (context.state.charactersInfo.loadingState() < 1) {
+              context.commit('startLoadingNewPage');
+            }
           }
-        } finally {
-          if (context.state.charactersInfo.loadingState() < 1) {
-            context.commit('startLoadingNewPage');
-          }
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          console.log(err.message);
         }
       }
     },

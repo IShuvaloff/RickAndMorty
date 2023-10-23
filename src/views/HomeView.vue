@@ -8,19 +8,19 @@
         data-id="reload-list"
         :progress="loadingProgress"
         :error="loadingError"
-        @click="loadCharacters"
+        @click="loadCharacters(sorts)"
       />
       <PanelSorts class="control-panel__sorts" v-model:sorts="sorts" :disabled="isLoading" />
     </div>
 
     <div class="home__cards">
-      <transition-group name="characters-list">
-        <CharacterCard
-          v-for="person in getCharacters"
-          :key="(person as ICharacter).id"
-          :character="person"
-        />
-      </transition-group>
+      <!-- <transition-group name="characters-list"> -->
+      <CharacterCard
+        v-for="person in getCharacters"
+        :key="(person as ICharacter).id"
+        :character="person"
+      />
+      <!-- </transition-group> -->
     </div>
   </BaseContainer>
 </template>
@@ -79,24 +79,18 @@ export default defineComponent({
   created() {
     if (this.getCharacters.length && !this.getCharactersInfo.error) return;
 
-    this.loadCharacters()
-      .then(() => {
-        console.log('данные загружены');
-
-        // отсортировать при наличии предварительной настройки
-        if (Object.values(this.sorts).filter((item) => item !== 'none').length) {
-          this.sortCharacters(this.sorts);
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    this.loadCharacters(this.sorts).then(() => {
+      console.log('данные загружены');
+    });
   },
 });
 </script>
 
 <style lang="sass" scoped>
 .home
+  // display: flex
+  // flex-direction: column
+  // align-items: center
   &__control-panel
     margin-bottom: 20px
   &__cards
@@ -107,7 +101,10 @@ export default defineComponent({
 
 .control-panel
   display: flex
+  align-items: center
+  justify-content: center
   &__reload
+    flex-shrink: 0
     margin-right: 20px
 
 .list-item
@@ -125,9 +122,14 @@ export default defineComponent({
 
 @media (max-width: 991.98px)
   .home
-    grid-template-columns: repeat(2, 1fr)
+    &__cards
+      grid-template-columns: repeat(2, 1fr)
 
 @media (max-width: 575.98px)
   .home
-    grid-template-columns: 1fr
+    &__cards
+      grid-template-columns: 1fr
+  .control-panel
+    &__reload
+      margin-right: 7px
 </style>

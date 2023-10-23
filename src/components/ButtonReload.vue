@@ -71,6 +71,20 @@ export default defineComponent({
     line-height: unset
     transition: color .2s ease-in-out
 
+@media (max-width: 991.98px)
+  .btn-reload
+    width: 45px
+    height: 45px
+    &__value
+      font-size: 9px
+
+@media (max-width: 575.98px)
+  .btn-reload
+    width: 25px
+    height: 25px
+    &__value
+      display: none
+
 .loading
   &-success
     .icon

@@ -76,8 +76,26 @@ export default defineComponent({
   &__label
     margin-right: 10px
   &__btn
-    padding-top: 2px
-    padding-bottom: 2px
+    flex-shrink: 0
+    // padding-top: 2px
+    // padding-bottom: 2px
     &:not(:last-child)
       margin-right: 10px
+
+@media (max-width: 991.98px)
+  .panel
+    &__label
+      font-size: 14px
+    &__btn
+      padding-top: 6px
+      padding-bottom: 6px
+
+@media (max-width: 575.98px)
+  .panel
+    &__label
+      display: none
+    &__btn
+      margin-right: 7px !important
+      padding-top: 2px
+      padding-bottom: 2px
 </style>
