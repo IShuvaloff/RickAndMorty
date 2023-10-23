@@ -6,45 +6,57 @@
       <img class="card__img" :src="image" alt="Персонаж" />
 
       <div class="card__content">
-        <p class="card__text card__id">
-          <span class="card__text--header">ID:</span> {{ character?.id }}
-        </p>
-        <p class="card__text card__name">
-          <span class="card__text--header">ИМЯ:</span> {{ character?.name }}
-        </p>
-        <p class="card__text card__status">
-          <span class="card__text--header">СТАТУС:</span> {{ character?.status }}
-        </p>
-        <p class="card__text card__species">
-          <span class="card__text--header">РАСА:</span> {{ character?.species }}
-        </p>
-        <p class="card__text card__type">
-          <span class="card__text--header">ТИП:</span> {{ character?.type }}
-        </p>
-        <p class="card__text card__gender">
-          <span class="card__text--header">ПОЛ:</span> {{ character?.gender }}
-        </p>
-        <p class="card__text card__origin">
-          <span class="card__text--header">ПРОИСХОЖДЕНИЕ:</span>
-          <a class="card__link" :href="String(character?.origin?.url)" target="_blank">{{
-            character?.origin?.name
-          }}</a>
-        </p>
-        <p class="card__text card__location">
-          <span class="card__text--header">МЕСТО:</span>
-          <a class="card__link" :href="String(character?.location?.url)" target="_blank">{{
-            character?.location?.name
-          }}</a>
-        </p>
+        <div class="card__text card__id">
+          <p class="card__text--header">ID:</p>
+          <p class="card__text--value">{{ character?.id }}</p>
+        </div>
+        <div class="card__text card__name">
+          <p class="card__text--header">ИМЯ:</p>
+          <p class="card__text--value">{{ character?.name }}</p>
+        </div>
+        <div class="card__text card__status">
+          <p class="card__text--header">СТАТУС:</p>
+          <p class="card__text--value">{{ character?.status }}</p>
+        </div>
+        <div class="card__text card__species">
+          <p class="card__text--header">РАСА:</p>
+          <p class="card__text--value">{{ character?.species }}</p>
+        </div>
+        <div class="card__text card__type">
+          <p class="card__text--header">ТИП:</p>
+          <p class="card__text--value">{{ character?.type }}</p>
+        </div>
+        <div class="card__text card__gender">
+          <p class="card__text--header">ПОЛ:</p>
+          <p class="card__text--value">{{ character?.gender }}</p>
+        </div>
+        <div class="card__text card__origin">
+          <p class="card__text--header">ПРОИСХ.:</p>
+          <a
+            class="card__text--value card__link"
+            :href="String(character?.origin?.url)"
+            target="_blank"
+            >{{ character?.origin?.name }}</a
+          >
+        </div>
+        <div class="card__text card__location">
+          <p class="card__text--header">МЕСТО:</p>
+          <a
+            class="card__text--value card__link"
+            :href="String(character?.location?.url)"
+            target="_blank"
+            >{{ character?.location?.name }}</a
+          >
+        </div>
       </div>
     </div>
 
-    <SvgIcon
+    <!-- <SvgIcon
       class="icon card__icon card__icon--edit"
       name="iconEdit"
       title="Изменить запись"
       @click="dialogOpen"
-    />
+    /> -->
   </div>
 </template>
 
@@ -52,12 +64,12 @@
 import { PropType, defineComponent, defineAsyncComponent } from 'vue';
 import { mapMutations } from 'vuex';
 import { ICharacter } from '@/scripts/interfaces';
-import SvgIcon from './SvgIcon.vue';
+// import SvgIcon from './SvgIcon.vue';
 
 export default defineComponent({
   name: 'CharacterCard',
   components: {
-    SvgIcon,
+    // SvgIcon,
     CharacterDialog: defineAsyncComponent({
       loader: () => import('@/components/CharacterDialog.vue'),
       delay: 0,
@@ -122,7 +134,10 @@ export default defineComponent({
     align-self: center
     border-radius: 6px
     max-height: 300px
-    max-width: 75%
+    width: 100%
+    max-width: 350px
+    max-height: 300px
+    object-fit: cover
   &__content
     display: flex
     flex-direction: column
@@ -130,11 +145,16 @@ export default defineComponent({
     margin-bottom: 10px
     margin-top: 40px
   &__text
+    display: flex
+    // align-items: center
+    margin-bottom: 5px
+    width: 100%
     font-size: 16px
-    font-weight: 600
-    word-break: break-word
     &--header
-      width: 30%
+      margin-right: 10px
+      font-weight: 600
+    &--value
+      word-break: break-word
 
 @media (max-width: 575.98px)
   .card
