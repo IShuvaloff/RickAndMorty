@@ -6,11 +6,59 @@
           <span>{{ character?.name ?? 'Неизвестный персонаж' }}</span>
         </div>
 
-        <BaseButtonOut
-          class="button button--second dialog__btn dialog__btn--close"
-          caption="Закрыть"
-          @click="cancel"
-        />
+        <div class="dialog__container">
+          <img class="dialog__img" :src="image" alt="Персонаж" />
+
+          <div class="dialog__content">
+            <!-- <div class="dialog__text dialog__id">
+              <p class="dialog__text--header">ID:</p>
+              <p class="dialog__text--value">{{ character?.id }}</p>
+            </div> -->
+            <!-- <div class="dialog__text dialog__name">
+              <p class="dialog__text--header">ИМЯ:</p>
+              <p class="dialog__text--value">{{ character?.name }}</p>
+            </div> -->
+            <div class="dialog__text dialog__status">
+              <p class="dialog__text--header">СТАТУС:</p>
+              <p class="dialog__text--value">{{ character?.status }}</p>
+            </div>
+            <div class="dialog__text dialog__species">
+              <p class="dialog__text--header">РАСА:</p>
+              <p class="dialog__text--value">{{ character?.species }}</p>
+            </div>
+            <div class="dialog__text dialog__type">
+              <p class="dialog__text--header">ТИП:</p>
+              <p class="dialog__text--value">{{ character?.type }}</p>
+            </div>
+            <div class="dialog__text dialog__gender">
+              <p class="dialog__text--header">ПОЛ:</p>
+              <p class="dialog__text--value">{{ character?.gender }}</p>
+            </div>
+            <div class="dialog__text dialog__origin">
+              <p class="dialog__text--header">ПРОИСХ.:</p>
+              <a
+                class="dialog__text--value dialog__link"
+                :href="String(character?.origin?.url)"
+                target="_blank"
+                >{{ character?.origin?.name }}</a
+              >
+            </div>
+            <div class="dialog__text dialog__location">
+              <p class="dialog__text--header">МЕСТО:</p>
+              <a
+                class="dialog__text--value dialog__link"
+                :href="String(character?.location?.url)"
+                target="_blank"
+                >{{ character?.location?.name }}</a
+              >
+            </div>
+            <BaseButtonOut
+              class="button button--second dialog__btn dialog__btn--close"
+              caption="Закрыть"
+              @click="cancel"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </teleport>
@@ -25,6 +73,13 @@ export default defineComponent({
   components: {},
   props: {
     character: Object as PropType<ICharacter>,
+  },
+  computed: {
+    image() {
+      return this.character?.image
+        ? this.character.image
+        : new URL('@/assets/no-photo.jpg', import.meta.url).href;
+    },
   },
   emits: ['cancel'],
   methods: {
@@ -78,7 +133,8 @@ export default defineComponent({
     background-color: white
     border-radius: 6px
     box-shadow: 4px 4px 8px 0px rgba(black, 0.5)
-    max-height: 600px
+    min-width: 300px
+    max-height: 650px
     max-width: 90%
     overflow: auto
   &__header
@@ -109,35 +165,50 @@ export default defineComponent({
     & > *:not(:last-child)
       width: 100%
       margin-bottom: 10px
-  &__input
-    border: none
-    border-radius: 0
-    border-bottom: 1px solid $color-gs-5
-    height: 25px
-    &--title
-      margin-bottom: 3px !important
-    &--descr
-      height: 100px
-      resize: vertical
-  &__input-error
-    margin-bottom: 7px
-    color: red
-    font-size: 12px
-    &.hidden
-      visibility: hidden
-      height: 0
-  &__footer
-    flex-grow: 0
-    flex-shrink: 0
-    display: flex
-    justify-content: flex-end
-    margin-top: 10px
   &__btn
     display: flex
     align-items: center
     justify-content: center
   &__btn--close
     margin-right: 20px
+  &__img
+    align-self: center
+    border-radius: 6px
+    max-height: 300px
+    width: 100%
+    max-width: 250px
+    object-fit: cover
+
+  &__container
+    display: grid
+    gap: 30px
+    margin-bottom: 10px
+  &__text
+    display: flex
+    margin-bottom: 5px
+    width: 100%
+    font-size: 16px
+    &:last-of-type
+      margin-bottom: 30px
+    &--header
+      margin-right: 10px
+      font-weight: 600
+    &--value
+      word-break: break-word
+
+@media (orientation: portrait)
+  .dialog
+    &__container
+      grid-template-columns: 1fr
+    &__text
+      &--header
+        width: 80px
+        text-align: end
+
+@media (orientation: landscape)
+  .dialog
+    &__container
+      grid-template-columns: repeat(2, 1fr)
 
 @media (max-width: 575.98px)
   .dialog
@@ -148,5 +219,6 @@ export default defineComponent({
     &__input
       font-size: 14px
     &__btn--close
+      padding: 10px
       margin-right: 10px
 </style>

@@ -6,10 +6,10 @@
       <img class="card__img" :src="image" alt="Персонаж" />
 
       <div class="card__content">
-        <div class="card__text card__id">
+        <!-- <div class="card__text card__id">
           <p class="card__text--header">ID:</p>
           <p class="card__text--value">{{ character?.id }}</p>
-        </div>
+        </div> -->
         <div class="card__text card__name">
           <p class="card__text--header">ИМЯ:</p>
           <p class="card__text--value">{{ character?.name }}</p>
